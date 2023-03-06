@@ -7,7 +7,7 @@ on:
       - "v*"
 
 jobs:
-  copy-main-to-staging:
+  build-identity-image:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Container Registry
@@ -22,4 +22,7 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: "1.19"
-      - run: docker build --no-cache --push -t ghcr.io/acorn-io/amazon-eks-pod-identity-webhook:${{github.ref}} .
+      - run: |
+          docker build --no-cache -t ghcr.io/acorn-io/amazon-eks-pod-identity-webhook:${{github.ref_name}} .
+          docker push ghcr.io/acorn-io/amazon-eks-pod-identity-webhook:${{github.ref_name}}
+        
